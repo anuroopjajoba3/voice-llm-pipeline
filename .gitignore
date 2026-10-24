@@ -1,0 +1,9 @@
+.venv/
+*.egg-info/
+__pycache__/
+*.pyc
+outputs/
+.DS_Store
+deploy/triton/model_repository/intent_classifier/1/weights/
+.ray/
+wandb/

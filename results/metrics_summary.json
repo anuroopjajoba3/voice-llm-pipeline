@@ -1,0 +1,20 @@
+{
+  "dataset": "mteb/banking77",
+  "model": "distilbert-base-uncased",
+  "test_split": "official test (3076 examples)",
+  "baseline": {
+    "test_accuracy": 0.638816644993498,
+    "test_f1_macro": 0.6011217667445744,
+    "config": "configs/baseline.yaml"
+  },
+  "finetune": {
+    "test_accuracy": 0.9184005201560468,
+    "test_f1_macro": 0.9183745834476632,
+    "config": "configs/finetune.yaml"
+  },
+  "eval_throughput_finetune": {
+    "single_process_samples_per_sec": 375.92,
+    "ray_4_shards_samples_per_sec": 160.97,
+    "note": "Mac MPS single-process vs Ray CPU workers"
+  }
+}

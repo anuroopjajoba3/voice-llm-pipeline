@@ -1,0 +1,13 @@
+run_name: finetune
+model_name: distilbert-base-uncased
+output_dir: outputs/finetune
+
+num_train_epochs: 8
+learning_rate: 2.0e-5
+per_device_train_batch_size: 16
+per_device_eval_batch_size: 64
+weight_decay: 0.01
+warmup_ratio: 0.1
+seed: 42
+max_length: 128
+early_stopping_patience: 2

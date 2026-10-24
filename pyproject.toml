@@ -1,0 +1,9 @@
+[project]
+name = "voice-llm-pipeline"
+version = "0.1.0"
+description = "Voice agent NLU: HF fine-tune, Triton serve, Ray eval"
+requires-python = ">=3.10"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
