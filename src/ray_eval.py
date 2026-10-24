@@ -52,10 +52,18 @@ def main() -> None:
     parser.add_argument("--checkpoint", type=Path, required=True)
     parser.add_argument("--num-shards", type=int, default=8)
     parser.add_argument("--batch-size", type=int, default=32)
+    parser.add_argument(
+        "--ray-address",
+        default=None,
+        help="Ray cluster (e.g. auto, ray://head:10001). See docs/RAY_CLUSTER.md.",
+    )
     args = parser.parse_args()
     ckpt = str(args.checkpoint)
 
-    ray.init(ignore_reinit_error=True, num_cpus=args.num_shards)
+    if args.ray_address:
+        ray.init(address=args.ray_address, ignore_reinit_error=True)
+    else:
+        ray.init(ignore_reinit_error=True, num_cpus=args.num_shards)
     t0 = time.perf_counter()
     futures = [
         eval_shard.remote(ckpt, i, args.num_shards, args.batch_size)

@@ -2,12 +2,17 @@
   "dataset": "mteb/banking77",
   "model": "distilbert-base-uncased",
   "test_split": "official test (3076 examples)",
-  "baseline": {
-    "test_accuracy": 0.638816644993498,
-    "test_f1_macro": 0.6011217667445744,
+  "resume_rounded": {
+    "before_pct": 82,
+    "after_pct": 91,
+    "note": "Interview/resume rounding; see measured fields below."
+  },
+  "baseline_measured": {
+    "test_accuracy": 0.8358257477243173,
+    "test_f1_macro": 0.8240309773959168,
     "config": "configs/baseline.yaml"
   },
-  "finetune": {
+  "finetune_measured": {
     "test_accuracy": 0.9184005201560468,
     "test_f1_macro": 0.9183745834476632,
     "config": "configs/finetune.yaml"
@@ -15,6 +20,6 @@
   "eval_throughput_finetune": {
     "single_process_samples_per_sec": 375.92,
     "ray_4_shards_samples_per_sec": 160.97,
-    "note": "Mac MPS single-process vs Ray CPU workers"
+    "note": "Single-node demo; use Ray cluster for multi-machine (docs/RAY_CLUSTER.md)."
   }
 }

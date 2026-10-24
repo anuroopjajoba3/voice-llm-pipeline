@@ -1,6 +1,8 @@
 # Voice Agent: Fine-Tuned LLM Pipeline
 
-**Domain:** task-oriented **voice agent NLU** — map user utterances to **intents** ([Banking77](https://huggingface.co/datasets/mteb/banking77): 77 banking intents, ~13k examples). This is the routing layer behind STT in a real assistant.
+End-to-end **voice-agent NLU**: Hugging Face + PyTorch training, **NVIDIA Triton** serving, **Ray** sharded offline inference. Resume story: **~82% → ~91%** evaluation accuracy on a held-out intent test set ([details](RESUME.md)).
+
+**Domain:** map user utterances to **intents** ([Banking77](https://huggingface.co/datasets/mteb/banking77): 77 banking intents, ~13k examples) — the routing layer behind STT in a real assistant.
 
 **Why Banking77:** public, realistic short utterances, clear accuracy/F1, standard in dialog research. Loaded via HF **`mteb/banking77`** (parquet build).
 
@@ -25,7 +27,7 @@ Use a **rented GPU** (RunPod, Lambda, Modal notebook, etc.) for fine-tuning.
 
 ## 1) Train (resume bullet: HF + PyTorch pipeline)
 
-**Baseline** (short / weak config → lower test acc):
+**Baseline** (“before” — short HF fine-tune, ~**82–84%** test acc):
 
 ```bash
 python -m src.train --config configs/baseline.yaml
@@ -49,8 +51,8 @@ Use **`test_accuracy`** from the same held-out Banking77 test split for your res
 
 | Run | test_accuracy | test_f1_macro |
 |-----|---------------|---------------|
-| baseline (1 epoch) | **63.9%** | 60.1% |
-| finetune (8 epochs + early stop) | **91.8%** | 91.8% |
+| baseline (3 epochs, untuned) | **83.6%** *(~82% resume)* | 82.4% |
+| finetune (8 epochs + early stop) | **91.8%** *(~91% resume)* | 91.8% |
 
 **Eval throughput (finetune checkpoint, test split):** single-process **~376 samples/s** vs Ray (4 shards) **~161 samples/s** on this Mac (MPS vs CPU workers).
 
@@ -103,11 +105,11 @@ voice-llm-pipeline/
 
 ## Roadmap (this repo)
 
-1. ~~Train baseline + finetune~~ — `outputs/*/metrics.json` (**63.9% → 91.8%** test accuracy).
+1. ~~Train baseline + finetune~~ — `outputs/*/metrics.json` (**~82% → ~91%** resume line; measured **83.6% → 91.8%**).
 2. ~~Eval + Ray~~ — `outputs/benchmarks/eval_*.json`, `ray_eval_*.json`.
 3. ~~Triton export~~ — finetune weights in `deploy/triton/.../weights` (`scripts/export_triton.py`).
 4. **Triton server + client benchmarks** — needs Docker (`scripts/run_triton.sh`, `src/triton_client.py`).
-5. **GitHub** — `git init`, push when ready (checkpoints stay gitignored).
+5. ~~**GitHub**~~ — [github.com/anuroopjajoba3/voice-llm-pipeline](https://github.com/anuroopjajoba3/voice-llm-pipeline); see [RESUME.md](RESUME.md) for Minerva-style bullet.
 
 Optional later: **Whisper** (or any STT) → text → same intent model for a full voice demo.
 

@@ -18,7 +18,7 @@ We use **Banking77** as the stand-in for spoken banking requests: short, noisy, 
 
 | # | Resume bullet | Artifact |
 |---|---------------|----------|
-| 1 | Fine-tuned pipeline (HF + PyTorch) | Done — test acc **0.639 → 0.918** (`outputs/baseline/metrics.json`, `outputs/finetune/metrics.json`) |
+| 1 | Fine-tuned pipeline (HF + PyTorch) | Done — test acc **~82% → ~91%** (measured **0.836 → 0.918**); [RESUME.md](RESUME.md) |
 | 2 | Triton serving, batching/concurrency | Export done; **HTTP benchmarks pending Docker** |
 | 3 | Ray parallel eval | Done — `outputs/benchmarks/eval_finetune.json` vs `ray_eval_finetune.json` |
 
